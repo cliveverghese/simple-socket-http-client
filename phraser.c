@@ -43,6 +43,7 @@ struct status_code process_status_code(char * msg)
 	int i,j;	
 	char num[50];
 	char * content_len_string;	
+
 	for(i = 0; msg[i] != ' '; i++);
 	i++;
 	for(j = 0; msg[i] != ' '; i++,j++)
@@ -69,6 +70,17 @@ struct status_code process_status_code(char * msg)
 		ret.content_length = 0;
 		ret.header_length = 0;
 	}
+	content_len_string = strstr(msg,"Location:");
+	if(content_len_string != NULL)
+	{
+		content_len_string += 9;
+		for(i = 0; content_len_string[i] != '\n';i++)
+		{
+			ret.values[HEADER_LOCATION][i] = content_len_string[i];	
+		}
+		ret.values[HEADER_LOCATION][i] = '\0';
+	}
+	
 
 	return ret;
 }

@@ -52,7 +52,21 @@ void get_content_webpage(char url[])
 
 	response_status = process_status_code(msg);
 	printf("\n%d\n%s",response_status.status,msg+response_status.header_length);
+	if(response_status.status == 302 || response_status.status == 301)
+	{
+		if(strstr(response_status.values[HEADER_LOCATION],"http://") == NULL)
+		{
+			bzero(msg,1024);
+			strcpy(msg,url);
+			strcat(msg,response_status.values[HEADER_LOCATION]);
+			strcpy(response_status.values[HEADER_LOCATION],msg);
+		}
+			
+		get_content_webpage(response_status.values[HEADER_LOCATION]);
+		return;	
+	}
 	n = n - response_status.header_length;
+
 	while(n < response_status.content_length)
 	{
 		bzero(msg,1024);

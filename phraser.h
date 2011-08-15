@@ -7,6 +7,7 @@ enum header_response{
 };
 struct status_code{
 	int status,header_length,content_length;
+	char values[10][200];
 };
 
 struct phrased_url{
