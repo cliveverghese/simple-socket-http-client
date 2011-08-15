@@ -7,17 +7,21 @@
 #include <netinet/in.h>
 #include <netdb.h> 
 #include "socket_connection.h"
+#include "phraser.h"
+
 void get_content_webpage(char url[])
 {	
 	int sock,n;
+	struct phrased_url location;
 	struct hostent *destination;
 	struct sockaddr_in server;
 	char msg[256];
 	printf("%s",url);
+	location = get_path_and_host(url);
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock < 0)
 		printf("error opening socket");
-	destination = gethostbyname(url);
+	destination = gethostbyname(location.host);
     	if (destination == NULL) {
         printf("ERROR, no such host\n");
       	return;
@@ -29,7 +33,11 @@ void get_content_webpage(char url[])
 	
 	server.sin_port = htons(80);
 	bzero(msg,256);
-	strcat(msg,"GET / HTTP/1.1\nHost: www.jmarshall.com\nUser-Agent: Mozilla/5.0 (X11; Linux i686; rv:2.0.1) Gecko/20100101 Firefox/4.0.1\n\n");
+	strcat(msg,"GET ");
+	strcat(msg,location.path);
+	strcat(msg," HTTP/1.1\nHost: ");
+	strcat(msg,location.host);
+	strcat(msg,"\nUser-Agent: Mozilla/5.0 (X11; Linux i686; rv:2.0.1) Gecko/20100101 Firefox/4.0.1\n\n");
 
 
 	if(connect(sock,(struct sockaddr *) &server, sizeof(server)) < 0)
