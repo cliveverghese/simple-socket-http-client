@@ -11,7 +11,7 @@
 
 void get_content_webpage(char url[])
 {	
-	int sock,n;
+	int sock,n,status;
 	struct phrased_url location;
 	struct hostent *destination;
 	struct sockaddr_in server;
@@ -42,16 +42,19 @@ void get_content_webpage(char url[])
 
 	if(connect(sock,(struct sockaddr *) &server, sizeof(server)) < 0)
 		printf("error connecting");
-	printf("sending");
 	n = write(sock,msg,strlen(msg));
 	
-
-	do{
-
+	n = recv(sock,msg,254,0);
+	printf("\n%s",msg);
+	status = process_status_code(msg);
+	printf("\n%d\n",status);
+	
+	/*do{
+	n = recv(sock,msg,254,0);
 	bzero(msg,256);
 	n = recv(sock,msg,254,0);
 	printf("%s",msg);
-	}while(n != 0);		
+	}while(n != 0);*/		
 	close(sock);
 	
 }

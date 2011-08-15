@@ -31,3 +31,19 @@ struct phrased_url get_path_and_host(char * url)
 	ret.path[j] = '\0';
 	return ret;
 }
+
+int process_status_code(char * msg)
+{
+	int ret;
+	int i,j;	
+	char num[4];
+	for(i = 0; msg[i] != ' '; i++);
+	i++;
+	for(j = 0; msg[i] != ' '; i++,j++)
+		num[j] = msg[i];
+	num[j] = '\0';
+	printf("\n%s",num);
+	ret = atoi(num);
+	return ret;
+}
+		

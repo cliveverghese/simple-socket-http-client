@@ -8,4 +8,6 @@ struct phrased_url{
 
 struct phrased_url get_path_and_host(char *);
 
+int process_status_code(char *);
+
 #endif
