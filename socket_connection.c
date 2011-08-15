@@ -11,7 +11,7 @@
 
 void get_content_webpage(char url[])
 {	
-	int sock,n,status;
+	int sock,n,status,prevn;
 	struct phrased_url location;
 	struct status_code response_status;
 	
@@ -49,10 +49,10 @@ void get_content_webpage(char url[])
 	n = write(sock,msg,strlen(msg));
 	bzero(msg,1024);
 	n = recv(sock,msg,1024,0);
-
+	
 	response_status = process_status_code(msg);
 	printf("\n%d\n%s",response_status.status,msg+response_status.header_length);
-	if(response_status.status == 302 || response_status.status == 301)
+	if(response_status.status == 302 || response_status.status == 301 )
 	{
 		if(strstr(response_status.values[HEADER_LOCATION],"http://") == NULL)
 		{
@@ -67,8 +67,9 @@ void get_content_webpage(char url[])
 	}
 	n = n - response_status.header_length;
 
-	while(n < response_status.content_length)
+	while(n <= response_status.content_length && prevn != n)
 	{
+		prevn = n;
 		bzero(msg,1024);
 		n += recv(sock,msg,1024,0);
 		printf("%s",msg);
