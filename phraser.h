@@ -1,9 +1,8 @@
-#ifdef PHRASER_H_INCLUDED
+#ifndef PHRASER_H_INCLUDED
 #define PHRASER_H_INCLUDED
 
 struct phrased_url{
-	char host[100];
-	char path[200];
+	char host[100],path[200];
 };
 
 

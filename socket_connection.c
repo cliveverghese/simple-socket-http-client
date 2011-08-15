@@ -38,7 +38,7 @@ void get_content_webpage(char url[])
 	strcat(msg," HTTP/1.1\nHost: ");
 	strcat(msg,location.host);
 	strcat(msg,"\nUser-Agent: Mozilla/5.0 (X11; Linux i686; rv:2.0.1) Gecko/20100101 Firefox/4.0.1\n\n");
-
+	printf("\n\n\n %s \n",msg);
 
 	if(connect(sock,(struct sockaddr *) &server, sizeof(server)) < 0)
 		printf("error connecting");

@@ -1,8 +1,8 @@
 #include "socket_connection.h"
 #include <stdio.h>
 
-int main()
+int main(int argc,char *argv[])
 {
-	get_content_webpage("www.pixelbeat.org/programming/format_specs.html");
+	get_content_webpage(argv[1]);
 	return 0;
 }
